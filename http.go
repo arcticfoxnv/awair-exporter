@@ -31,7 +31,7 @@ func (e *ExporterHTTP) getDeviceList() (*structs.DeviceList, error) {
 	if data, found := e.clientCache.Get(DEVICES_KEY); found {
 		return data.(*structs.DeviceList), nil
 	}
-	log.Printf("Cache miss on %s", DEVICES_KEY)
+	log.Printf("Fetching device list")
 
 	devices, err := e.client.Devices()
 	if err != nil {
@@ -47,7 +47,7 @@ func (e *ExporterHTTP) getLatestData(deviceType string, deviceId int) (*structs.
 	if data, found := e.clientCache.Get(cacheKey); found {
 		return data.(*structs.DeviceDataList), nil
 	}
-	log.Printf("Cache miss on %s", cacheKey)
+	log.Printf("Fetching data for %s-%d", deviceType, deviceId)
 
 	data, err := e.client.UserLatestAirData(deviceType, deviceId)
 	if err != nil {
