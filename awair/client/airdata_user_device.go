@@ -1,7 +1,7 @@
 package client
 
 import (
-	"awair-exporter/structs"
+	"awair-exporter/awair/structs"
 	"fmt"
 )
 

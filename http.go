@@ -2,7 +2,7 @@ package main
 
 import (
 	awair "awair-exporter/awair/client"
-	"awair-exporter/structs"
+	"awair-exporter/awair/structs"
 	"fmt"
 	"github.com/patrickmn/go-cache"
 	"log"
@@ -20,10 +20,10 @@ type ExporterHTTP struct {
 	clientCache *cache.Cache
 }
 
-func NewExporterHTTP(client *awair.Client) *ExporterHTTP {
+func NewExporterHTTP(client *awair.Client, cacheTTL time.Duration) *ExporterHTTP {
 	return &ExporterHTTP{
 		client:      client,
-		clientCache: cache.New(5*time.Minute, 10*time.Minute),
+		clientCache: cache.New(cacheTTL, 10*time.Minute),
 	}
 }
 
