@@ -2,6 +2,8 @@ package main
 
 import (
 	"awair-exporter/awair"
+	"github.com/prometheus/client_golang/prometheus"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"log"
 	"net/http"
 	"os"
@@ -55,10 +57,12 @@ func main() {
 	cacheTTL := GetCacheTTLByTier(tierName)
 	log.Printf("Setting cache key ttl to %d seconds\n", cacheTTL/time.Second)
 
+	registry := prometheus.NewRegistry()
+	registry.MustRegister(NewAwairCollector(client, cacheTTL))
+
 	e := NewExporterHTTP(client, cacheTTL)
 	m := http.NewServeMux()
-	m.HandleFunc("/metrics", e.serveLatest)
-	m.HandleFunc("/data/latest", e.serveLatest)
+	m.Handle("/metrics", promhttp.HandlerFor(registry, promhttp.HandlerOpts{}))
 	m.HandleFunc("/meta/usage", e.serveUsage)
 	s := &http.Server{Addr: ":8080", Handler: m}
 
