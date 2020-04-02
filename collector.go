@@ -1,9 +1,8 @@
 package main
 
 import (
-	awair "awair-exporter/awair/client"
-	"awair-exporter/awair/structs"
 	"fmt"
+	"github.com/arcticfoxnv/awair_api"
 	"github.com/patrickmn/go-cache"
 	"github.com/prometheus/client_golang/prometheus"
 	"log"
@@ -35,11 +34,11 @@ var awairScoreGauge = prometheus.NewGaugeVec(prometheus.GaugeOpts{
 type AwairCollector struct {
 	collectLock *sync.Mutex
 
-	client      *awair.Client
+	client      *awair_api.Client
 	clientCache *cache.Cache
 }
 
-func NewAwairCollector(client *awair.Client, cacheTTL time.Duration) *AwairCollector {
+func NewAwairCollector(client *awair_api.Client, cacheTTL time.Duration) *AwairCollector {
 	return &AwairCollector{
 		client:      client,
 		clientCache: cache.New(cacheTTL, 10*time.Minute),
@@ -111,9 +110,9 @@ func (ac *AwairCollector) Collect(ch chan<- prometheus.Metric) {
 	awairScoreGauge.Collect(ch)
 }
 
-func (ac *AwairCollector) getDeviceList() (*structs.DeviceList, error) {
+func (ac *AwairCollector) getDeviceList() (*awair_api.DeviceList, error) {
 	if data, found := ac.clientCache.Get(DEVICES_KEY); found {
-		return data.(*structs.DeviceList), nil
+		return data.(*awair_api.DeviceList), nil
 	}
 	log.Printf("Fetching device list")
 
@@ -126,10 +125,10 @@ func (ac *AwairCollector) getDeviceList() (*structs.DeviceList, error) {
 	return devices, nil
 }
 
-func (ac *AwairCollector) getLatestData(deviceType string, deviceId int) (*structs.DeviceDataList, error) {
+func (ac *AwairCollector) getLatestData(deviceType string, deviceId int) (*awair_api.DeviceDataList, error) {
 	cacheKey := fmt.Sprintf(DEVICE_LATEST_KEY_FORMAT, deviceType, deviceId)
 	if data, found := ac.clientCache.Get(cacheKey); found {
-		return data.(*structs.DeviceDataList), nil
+		return data.(*awair_api.DeviceDataList), nil
 	}
 	log.Printf("Fetching data for %s-%d", deviceType, deviceId)
 

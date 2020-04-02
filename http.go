@@ -1,9 +1,8 @@
 package main
 
 import (
-	awair "awair-exporter/awair/client"
-	"awair-exporter/awair/structs"
 	"fmt"
+	"github.com/arcticfoxnv/awair_api"
 	"github.com/patrickmn/go-cache"
 	"log"
 	"net/http"
@@ -11,11 +10,11 @@ import (
 )
 
 type ExporterHTTP struct {
-	client      *awair.Client
+	client      *awair_api.Client
 	clientCache *cache.Cache
 }
 
-func NewExporterHTTP(client *awair.Client, cacheTTL time.Duration) *ExporterHTTP {
+func NewExporterHTTP(client *awair_api.Client, cacheTTL time.Duration) *ExporterHTTP {
 	return &ExporterHTTP{
 		client:      client,
 		clientCache: cache.New(cacheTTL, 10*time.Minute),
@@ -24,9 +23,9 @@ func NewExporterHTTP(client *awair.Client, cacheTTL time.Duration) *ExporterHTTP
 
 // TODO: This should be merged with the collector version
 // TODO: Ideally, the cache should also be part of a high-level client
-func (e *ExporterHTTP) getDeviceList() (*structs.DeviceList, error) {
+func (e *ExporterHTTP) getDeviceList() (*awair_api.DeviceList, error) {
 	if data, found := e.clientCache.Get(DEVICES_KEY); found {
-		return data.(*structs.DeviceList), nil
+		return data.(*awair_api.DeviceList), nil
 	}
 	log.Printf("Fetching device list")
 

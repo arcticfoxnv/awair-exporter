@@ -1,7 +1,7 @@
 package main
 
 import (
-	"awair-exporter/awair"
+	"github.com/arcticfoxnv/awair_api"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"log"
@@ -42,7 +42,13 @@ func main() {
 		log.Fatalln("Cannot start exporter, access token is missing")
 	}
 
-	client := awair.NewClient(config.AccessToken)
+	client := awair_api.NewClient(
+		config.AccessToken,
+		func(c *awair_api.Client) {
+			c.UserAgent = "awair-exporter (https://github.com/arcticfoxnv/awair-exporter)"
+		},
+	)
+
 	userInfo, err := client.UserInfo()
 	if err != nil {
 		log.Fatalln("Failed to retrieve user info:", err)
