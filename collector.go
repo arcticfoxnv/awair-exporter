@@ -3,6 +3,7 @@ package main
 import (
 	"awair-exporter/awair"
 	"fmt"
+	"github.com/arcticfoxnv/awair_api"
 	"github.com/prometheus/client_golang/prometheus"
 	"strings"
 	"sync"
@@ -73,28 +74,36 @@ func (ac *AwairCollector) Collect(ch chan<- prometheus.Metric) {
 			awairScoreGauge.With(labels).Set(data.Score)
 
 			// Sensor values
-			for _, sensorData := range data.Sensors {
-				gauge := prometheus.NewGaugeVec(prometheus.GaugeOpts{
-					Namespace: "awair",
-					Subsystem: "sensor",
-					Name:      strings.ToLower(sensorData.Comp),
-				}, collectorLabels)
-				gauge.With(labels).Set(sensorData.Value)
-				gauge.Collect(ch)
-			}
+			ac.collectSensors(ch, data.Sensors, &labels)
 
 			// Index values
-			for _, sensorData := range data.Indices {
-				gauge := prometheus.NewGaugeVec(prometheus.GaugeOpts{
-					Namespace: "awair",
-					Subsystem: "index",
-					Name:      strings.ToLower(sensorData.Comp),
-				}, collectorLabels)
-				gauge.With(labels).Set(sensorData.Value)
-				gauge.Collect(ch)
-			}
+			ac.collectIndices(ch, data.Indices, &labels)
 		}
 	}
 
 	awairScoreGauge.Collect(ch)
+}
+
+func (ac *AwairCollector) collectSensors(ch chan<- prometheus.Metric, sensors []awair_api.DeviceSensorReading, labels *prometheus.Labels) {
+	for _, sensorData := range sensors {
+		gauge := prometheus.NewGaugeVec(prometheus.GaugeOpts{
+			Namespace: "awair",
+			Subsystem: "sensor",
+			Name:      strings.ToLower(sensorData.Comp),
+		}, collectorLabels)
+		gauge.With(*labels).Set(sensorData.Value)
+		gauge.Collect(ch)
+	}
+}
+
+func (ac *AwairCollector) collectIndices(ch chan<- prometheus.Metric, indices []awair_api.DeviceIndexData, labels *prometheus.Labels) {
+	for _, sensorData := range indices {
+		gauge := prometheus.NewGaugeVec(prometheus.GaugeOpts{
+			Namespace: "awair",
+			Subsystem: "index",
+			Name:      strings.ToLower(sensorData.Comp),
+		}, collectorLabels)
+		gauge.With(*labels).Set(sensorData.Value)
+		gauge.Collect(ch)
+	}
 }
