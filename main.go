@@ -31,6 +31,8 @@ func GetCacheTTLByTier(tier string) time.Duration {
 }
 
 func main() {
+	log.Printf("awair-exporter v%s-%s", Version, Commit)
+	log.Printf("-- awair_api v%s", awair_api.Version)
 	cfgFilename := getEnvWithDefault("AWAIR_CONFIG_FILE", "awair.toml")
 	config, err := LoadConfig(cfgFilename)
 	if err != nil {
