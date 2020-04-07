@@ -1,19 +1,11 @@
 package main
 
 import (
+	"awair-exporter/awair"
 	"fmt"
-	"github.com/arcticfoxnv/awair_api"
-	"github.com/patrickmn/go-cache"
 	"github.com/prometheus/client_golang/prometheus"
-	"log"
 	"strings"
 	"sync"
-	"time"
-)
-
-const (
-	DEVICES_KEY              = "devices"
-	DEVICE_LATEST_KEY_FORMAT = "device-latest-%s-%d"
 )
 
 var collectorLabels = []string{
@@ -32,16 +24,13 @@ var awairScoreGauge = prometheus.NewGaugeVec(prometheus.GaugeOpts{
 }, collectorLabels)
 
 type AwairCollector struct {
+	client      *awair.Client
 	collectLock *sync.Mutex
-
-	client      *awair_api.Client
-	clientCache *cache.Cache
 }
 
-func NewAwairCollector(client *awair_api.Client, cacheTTL time.Duration) *AwairCollector {
+func NewAwairCollector(client *awair.Client) *AwairCollector {
 	return &AwairCollector{
 		client:      client,
-		clientCache: cache.New(cacheTTL, 10*time.Minute),
 		collectLock: new(sync.Mutex),
 	}
 }
@@ -54,14 +43,14 @@ func (ac *AwairCollector) Collect(ch chan<- prometheus.Metric) {
 	ac.collectLock.Lock()
 	defer ac.collectLock.Unlock()
 
-	devices, err := ac.getDeviceList()
+	devices, err := ac.client.GetDeviceList()
 	if err != nil {
 		fmt.Printf("Error while getting device list: %s\n", err)
 		return
 	}
 
 	for _, device := range devices.Devices {
-		dataList, err := ac.getLatestData(device.DeviceType, device.DeviceId)
+		dataList, err := ac.client.GetLatestData(device.DeviceType, device.DeviceId)
 		if err != nil {
 			fmt.Printf("Error while getting latest air data: %s\n", err)
 			return
@@ -108,35 +97,4 @@ func (ac *AwairCollector) Collect(ch chan<- prometheus.Metric) {
 	}
 
 	awairScoreGauge.Collect(ch)
-}
-
-func (ac *AwairCollector) getDeviceList() (*awair_api.DeviceList, error) {
-	if data, found := ac.clientCache.Get(DEVICES_KEY); found {
-		return data.(*awair_api.DeviceList), nil
-	}
-	log.Printf("Fetching device list")
-
-	devices, err := ac.client.Devices()
-	if err != nil {
-		return nil, err
-	}
-
-	ac.clientCache.Set(DEVICES_KEY, devices, cache.DefaultExpiration)
-	return devices, nil
-}
-
-func (ac *AwairCollector) getLatestData(deviceType string, deviceId int) (*awair_api.DeviceDataList, error) {
-	cacheKey := fmt.Sprintf(DEVICE_LATEST_KEY_FORMAT, deviceType, deviceId)
-	if data, found := ac.clientCache.Get(cacheKey); found {
-		return data.(*awair_api.DeviceDataList), nil
-	}
-	log.Printf("Fetching data for %s-%d", deviceType, deviceId)
-
-	data, err := ac.client.UserLatestAirData(deviceType, deviceId)
-	if err != nil {
-		return nil, err
-	}
-
-	ac.clientCache.Set(cacheKey, data, cache.DefaultExpiration)
-	return data, nil
 }

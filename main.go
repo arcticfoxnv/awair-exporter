@@ -1,6 +1,7 @@
 package main
 
 import (
+	"awair-exporter/awair"
 	"github.com/arcticfoxnv/awair_api"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
@@ -44,14 +45,15 @@ func main() {
 		log.Fatalln("Cannot start exporter, access token is missing")
 	}
 
-	client := awair_api.NewClient(
+	client := awair.NewClient(
 		config.AccessToken,
+		0,
 		func(c *awair_api.Client) {
 			c.UserAgent = "awair-exporter (https://github.com/arcticfoxnv/awair-exporter)"
 		},
 	)
 
-	userInfo, err := client.UserInfo()
+	userInfo, err := client.GetUserInfo()
 	if err != nil {
 		log.Fatalln("Failed to retrieve user info:", err)
 	}
@@ -64,11 +66,12 @@ func main() {
 
 	cacheTTL := GetCacheTTLByTier(tierName)
 	log.Printf("Setting cache key ttl to %d seconds\n", cacheTTL/time.Second)
+	client.SetCacheTTL(cacheTTL)
 
 	registry := prometheus.NewRegistry()
-	registry.MustRegister(NewAwairCollector(client, cacheTTL))
+	registry.MustRegister(NewAwairCollector(client))
 
-	e := NewExporterHTTP(client, cacheTTL)
+	e := NewExporterHTTP(client)
 	m := http.NewServeMux()
 	m.Handle("/metrics", promhttp.HandlerFor(registry, promhttp.HandlerOpts{}))
 	m.HandleFunc("/meta/usage", e.serveUsage)
