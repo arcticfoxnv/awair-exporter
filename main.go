@@ -2,6 +2,7 @@ package main
 
 import (
 	"awair-exporter/awair"
+	"fmt"
 	"github.com/arcticfoxnv/awair_api"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
@@ -49,7 +50,7 @@ func main() {
 		config.AccessToken,
 		0,
 		func(c *awair_api.Client) {
-			c.UserAgent = "awair-exporter (https://github.com/arcticfoxnv/awair-exporter)"
+			c.UserAgent = fmt.Sprintf("awair-exporter/%s (https://github.com/arcticfoxnv/awair-exporter)", Version)
 		},
 	)
 
