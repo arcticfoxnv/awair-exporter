@@ -54,7 +54,7 @@ func (ac *AwairCollector) Collect(ch chan<- prometheus.Metric) {
 		dataList, err := ac.client.GetLatestData(device.DeviceType, device.DeviceId)
 		if err != nil {
 			fmt.Printf("Error while getting latest air data: %s\n", err)
-			return
+			continue
 		}
 
 		labels := make(prometheus.Labels)
