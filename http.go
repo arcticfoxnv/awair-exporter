@@ -1,8 +1,8 @@
 package main
 
 import (
-	"awair-exporter/awair"
 	"fmt"
+	"github.com/arcticfoxnv/awair-exporter/awair"
 	"net/http"
 )
 
