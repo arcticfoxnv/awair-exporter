@@ -5,8 +5,8 @@ import (
 	"crypto/tls"
 	"fmt"
 	"github.com/arcticfoxnv/awair_api"
+	"github.com/arcticfoxnv/awair-exporter/awair/mock"
 	"github.com/stretchr/testify/assert"
-	"io/ioutil"
 	"net"
 	"net/http"
 	"net/http/httptest"
@@ -39,34 +39,21 @@ func TestClientSetCacheTTL(t *testing.T) {
 }
 
 func TestClientGetDeviceAPIUsage(t *testing.T) {
-	h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		assert.Equal(t, "Bearer abc123", r.Header.Get("Authorization"))
+	s := mock.NewMockServer()
+	defer s.Close()
 
-		data, _ := ioutil.ReadFile("testdata/DeviceAPIUsage.json")
-
-		w.Write([]byte(data))
-	})
-
-	httpClient, teardown := testingHTTPClient(h)
-	defer teardown()
-
-	cli := NewClient("abc123", time.Minute, awair_api.SetHTTPClient(httpClient))
-	data, err := cli.GetDeviceAPIUsage("awair-c", 0)
+	cli := NewClient(mock.ACCESS_TOKEN, time.Minute, awair_api.SetHTTPClient(s.Client()))
+	data, err := cli.GetDeviceAPIUsage("awair-r2", 0)
 
 	assert.Nil(t, err)
 	assert.Equal(t, 4, len(data.Usages))
 }
 
 func TestClientGetDeviceList(t *testing.T) {
-	h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		assert.Equal(t, "Bearer abc123", r.Header.Get("Authorization"))
-		w.Write([]byte("{}"))
-	})
+	s := mock.NewMockServer()
+	defer s.Close()
 
-	httpClient, teardown := testingHTTPClient(h)
-	defer teardown()
-
-	cli := NewClient("abc123", time.Minute, awair_api.SetHTTPClient(httpClient))
+	cli := NewClient(mock.ACCESS_TOKEN, time.Minute, awair_api.SetHTTPClient(s.Client()))
 
 	_, found := cli.clientCache.Get(DEVICES_KEY)
 	assert.False(t, found)
@@ -82,17 +69,12 @@ func TestClientGetDeviceList(t *testing.T) {
 }
 
 func TestClientGetLatestData(t *testing.T) {
-	h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		assert.Equal(t, "Bearer abc123", r.Header.Get("Authorization"))
-		w.Write([]byte("{}"))
-	})
+	s := mock.NewMockServer()
+	defer s.Close()
 
-	httpClient, teardown := testingHTTPClient(h)
-	defer teardown()
+	cli := NewClient(mock.ACCESS_TOKEN, time.Minute, awair_api.SetHTTPClient(s.Client()))
 
-	cli := NewClient("abc123", time.Minute, awair_api.SetHTTPClient(httpClient))
-
-	deviceType := "awair-c"
+	deviceType := "awair-r2"
 	deviceId := 0
 	cacheKey := fmt.Sprintf(DEVICE_LATEST_KEY_FORMAT, deviceType, deviceId)
 	_, found := cli.clientCache.Get(cacheKey)
@@ -109,18 +91,10 @@ func TestClientGetLatestData(t *testing.T) {
 }
 
 func TestClientGetUserInfo(t *testing.T) {
-	h := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		assert.Equal(t, "Bearer abc123", r.Header.Get("Authorization"))
+	s := mock.NewMockServer()
+	defer s.Close()
 
-		data, _ := ioutil.ReadFile("testdata/UserInfo.json")
-
-		w.Write([]byte(data))
-	})
-
-	httpClient, teardown := testingHTTPClient(h)
-	defer teardown()
-
-	cli := NewClient("abc123", time.Minute, awair_api.SetHTTPClient(httpClient))
+	cli := NewClient(mock.ACCESS_TOKEN, time.Minute, awair_api.SetHTTPClient(s.Client()))
 	data, err := cli.GetUserInfo()
 
 	assert.Nil(t, err)

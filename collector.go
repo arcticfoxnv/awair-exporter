@@ -37,7 +37,7 @@ func NewAwairCollector(client *awair.Client) *AwairCollector {
 }
 
 func (ac *AwairCollector) Describe(ch chan<- *prometheus.Desc) {
-	awairScoreGauge.Describe(ch)
+	prometheus.DescribeByCollect(ac, ch)
 }
 
 func (ac *AwairCollector) Collect(ch chan<- prometheus.Metric) {
@@ -90,6 +90,7 @@ func (ac *AwairCollector) collectSensors(ch chan<- prometheus.Metric, sensors []
 			Namespace: "awair",
 			Subsystem: "sensor",
 			Name:      strings.ToLower(sensorData.Comp),
+			Help: "sensor reading",
 		}, collectorLabels)
 		gauge.With(*labels).Set(sensorData.Value)
 		gauge.Collect(ch)
@@ -102,6 +103,7 @@ func (ac *AwairCollector) collectIndices(ch chan<- prometheus.Metric, indices []
 			Namespace: "awair",
 			Subsystem: "index",
 			Name:      strings.ToLower(sensorData.Comp),
+			Help: "computed index",
 		}, collectorLabels)
 		gauge.With(*labels).Set(sensorData.Value)
 		gauge.Collect(ch)

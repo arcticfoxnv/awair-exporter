@@ -1,0 +1,32 @@
+{
+  "devices": [
+    {
+      "name": "My Awair",
+      "macAddress": "XX:XX:XX:XX:XX:XX",
+      "latitude": 37.77,
+      "preference": "GENERAL",
+      "timezone": "US/Pacific",
+      "roomType": "BEDROOM",
+      "deviceType": "awair",
+      "longitude": -122.42,
+      "spaceType": "HOME",
+      "deviceUUID": "awair_0",
+      "deviceId": 0,
+      "locationName": "My Home"
+    },
+    {
+      "name": "My Awair v2",
+      "macAddress": "XX:XX:XX:XX:XX:XX",
+      "latitude": 37.77,
+      "preference": "GENERAL",
+      "timezone": "US/Pacific",
+      "roomType": "BATHROOM",
+      "deviceType": "awair-r2",
+      "longitude": -122.42,
+      "spaceType": "HOME",
+      "deviceUUID": "awair-r2_0",
+      "deviceId": 0,
+      "locationName": "My Home"
+    }
+  ]
+}
