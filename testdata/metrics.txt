@@ -1,0 +1,46 @@
+# HELP awair_index_co2 computed index
+# TYPE awair_index_co2 gauge
+awair_index_co2{device_name="my awair",device_type="awair",device_uuid="awair_0",location_name="my home",room_type="bedroom",space_type="home"} 0
+# HELP awair_index_dust computed index
+# TYPE awair_index_dust gauge
+awair_index_dust{device_name="my awair",device_type="awair",device_uuid="awair_0",location_name="my home",room_type="bedroom",space_type="home"} 4
+# HELP awair_index_humid computed index
+# TYPE awair_index_humid gauge
+awair_index_humid{device_name="my awair",device_type="awair",device_uuid="awair_0",location_name="my home",room_type="bedroom",space_type="home"} 0
+awair_index_humid{device_name="my awair v2",device_type="awair-r2",device_uuid="awair-r2_0",location_name="my home",room_type="bathroom",space_type="home"} 0
+# HELP awair_index_pm25 computed index
+# TYPE awair_index_pm25 gauge
+awair_index_pm25{device_name="my awair v2",device_type="awair-r2",device_uuid="awair-r2_0",location_name="my home",room_type="bathroom",space_type="home"} 0
+# HELP awair_index_temp computed index
+# TYPE awair_index_temp gauge
+awair_index_temp{device_name="my awair",device_type="awair",device_uuid="awair_0",location_name="my home",room_type="bedroom",space_type="home"} 0
+awair_index_temp{device_name="my awair v2",device_type="awair-r2",device_uuid="awair-r2_0",location_name="my home",room_type="bathroom",space_type="home"} 0
+# HELP awair_index_voc computed index
+# TYPE awair_index_voc gauge
+awair_index_voc{device_name="my awair",device_type="awair",device_uuid="awair_0",location_name="my home",room_type="bedroom",space_type="home"} 1
+awair_index_voc{device_name="my awair v2",device_type="awair-r2",device_uuid="awair-r2_0",location_name="my home",room_type="bathroom",space_type="home"} 1
+# HELP awair_score Awair Score Value
+# TYPE awair_score gauge
+awair_score{device_name="my awair",device_type="awair",device_uuid="awair_0",location_name="my home",room_type="bedroom",space_type="home"} 90
+awair_score{device_name="my awair v2",device_type="awair-r2",device_uuid="awair-r2_0",location_name="my home",room_type="bathroom",space_type="home"} 90
+# HELP awair_sensor_co2 sensor reading
+# TYPE awair_sensor_co2 gauge
+awair_sensor_co2{device_name="my awair",device_type="awair",device_uuid="awair_0",location_name="my home",room_type="bedroom",space_type="home"} 419
+# HELP awair_sensor_dust sensor reading
+# TYPE awair_sensor_dust gauge
+awair_sensor_dust{device_name="my awair",device_type="awair",device_uuid="awair_0",location_name="my home",room_type="bedroom",space_type="home"} 56.8
+# HELP awair_sensor_humid sensor reading
+# TYPE awair_sensor_humid gauge
+awair_sensor_humid{device_name="my awair",device_type="awair",device_uuid="awair_0",location_name="my home",room_type="bedroom",space_type="home"} 49.92
+awair_sensor_humid{device_name="my awair v2",device_type="awair-r2",device_uuid="awair-r2_0",location_name="my home",room_type="bathroom",space_type="home"} 49.92
+# HELP awair_sensor_pm25 sensor reading
+# TYPE awair_sensor_pm25 gauge
+awair_sensor_pm25{device_name="my awair v2",device_type="awair-r2",device_uuid="awair-r2_0",location_name="my home",room_type="bathroom",space_type="home"} 3
+# HELP awair_sensor_temp sensor reading
+# TYPE awair_sensor_temp gauge
+awair_sensor_temp{device_name="my awair",device_type="awair",device_uuid="awair_0",location_name="my home",room_type="bedroom",space_type="home"} 69.45
+awair_sensor_temp{device_name="my awair v2",device_type="awair-r2",device_uuid="awair-r2_0",location_name="my home",room_type="bathroom",space_type="home"} 69.45
+# HELP awair_sensor_voc sensor reading
+# TYPE awair_sensor_voc gauge
+awair_sensor_voc{device_name="my awair",device_type="awair",device_uuid="awair_0",location_name="my home",room_type="bedroom",space_type="home"} 399
+awair_sensor_voc{device_name="my awair v2",device_type="awair-r2",device_uuid="awair-r2_0",location_name="my home",room_type="bathroom",space_type="home"} 399

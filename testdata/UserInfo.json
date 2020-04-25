@@ -1,0 +1,197 @@
+{
+  "usages": [
+    {
+      "scope": "USER_DEVICE_LIST",
+      "usage": 8681
+    },
+    {
+      "scope": "USER_INFO",
+      "usage": 571
+    }
+  ],
+  "tier": "Enterprise",
+  "email": "developer@getawair.com",
+  "dobYear": 1970,
+  "permissions": [
+    {
+      "scope": "FIFTEEN_MIN",
+      "quota": 86400
+    },
+    {
+      "scope": "FIVE_MIN",
+      "quota": 86400
+    },
+    {
+      "scope": "RAW",
+      "quota": 86400
+    },
+    {
+      "scope": "GET_DISPLAY_MODE",
+      "quota": 86400
+    },
+    {
+      "scope": "GET_LED_MODE",
+      "quota": 86400
+    },
+    {
+      "scope": "GET_KNOCKING_MODE",
+      "quota": 86400
+    },
+    {
+      "scope": "GET_POWER_STATUS",
+      "quota": 86400
+    },
+    {
+      "scope": "GET_TIMEZONE",
+      "quota": 86400
+    },
+    {
+      "scope": "PUT_PREFERENCE",
+      "quota": 86400
+    },
+    {
+      "scope": "ORG_FIFTEEN_MIN",
+      "quota": 86400
+    },
+    {
+      "scope": "ORG_FIVE_MIN",
+      "quota": 86400
+    },
+    {
+      "scope": "ORG_RAW",
+      "quota": 86400
+    },
+    {
+      "scope": "ORG_USERS_INFO",
+      "quota": 86400
+    },
+    {
+      "scope": "ORG_DEVICES",
+      "quota": 86400
+    },
+    {
+      "scope": "ORG_FLOORS",
+      "quota": 86400
+    },
+    {
+      "scope": "ORG_GROUPS",
+      "quota": 86400
+    },
+    {
+      "scope": "LATEST",
+      "quota": 86400
+    },
+    {
+      "scope": "ORG_LATEST",
+      "quota": 86400
+    },
+    {
+      "scope": "PUT_SPACE_TYPE",
+      "quota": 86400
+    },
+    {
+      "scope": "PUT_ROOM_TYPE",
+      "quota": 86400
+    },
+    {
+      "scope": "PUT_LOCATION",
+      "quota": 86400
+    },
+    {
+      "scope": "PUT_TIMEZONE",
+      "quota": 86400
+    },
+    {
+      "scope": "PUT_LED_MODE",
+      "quota": 86400
+    },
+    {
+      "scope": "PUT_KNOCKING_MODE",
+      "quota": 86400
+    },
+    {
+      "scope": "PUT_DISPLAY_MODE",
+      "quota": 86400
+    },
+    {
+      "scope": "PUT_DEVICE_NAME",
+      "quota": 86400
+    },
+    {
+      "scope": "USER_DEVICE_LIST",
+      "quota": 2147483647
+    },
+    {
+      "scope": "USER_INFO",
+      "quota": 2147483647
+    },
+    {
+      "scope": "ORG_LIST",
+      "quota": 2147483647
+    },
+    {
+      "scope": "ORG_DEVICE_API_USAGE",
+      "quota": 86400
+    },
+    {
+      "scope": "ORG_GET_DISPLAY_MODE",
+      "quota": 86400
+    },
+    {
+      "scope": "ORG_GET_KNOCKING_MODE",
+      "quota": 86400
+    },
+    {
+      "scope": "ORG_GET_LED_MODE",
+      "quota": 86400
+    },
+    {
+      "scope": "ORG_GET_POWER_STATUS",
+      "quota": 86400
+    },
+    {
+      "scope": "ORG_GET_TIMEZONE",
+      "quota": 86400
+    },
+    {
+      "scope": "ORG_PUT_DISPLAY_MODE",
+      "quota": 86400
+    },
+    {
+      "scope": "ORG_PUT_KNOCKING_MODE",
+      "quota": 86400
+    },
+    {
+      "scope": "ORG_PUT_LED_MODE",
+      "quota": 86400
+    },
+    {
+      "scope": "ORG_PUT_TIMEZONE",
+      "quota": 86400
+    },
+    {
+      "scope": "ORG_PUT_DEVICE_NAME",
+      "quota": 86400
+    },
+    {
+      "scope": "ORG_PUT_PREFERENCE",
+      "quota": 86400
+    },
+    {
+      "scope": "ORG_PUT_LOCATION",
+      "quota": 86400
+    },
+    {
+      "scope": "ORG_PUT_ROOM_TYPE",
+      "quota": 86400
+    },
+    {
+      "scope": "ORG_PUT_SPACE_TYPE",
+      "quota": 86400
+    }
+  ],
+  "sex": "MALE",
+  "lastName": "Kim",
+  "firstName": "Steve",
+  "id": "17492"
+}
