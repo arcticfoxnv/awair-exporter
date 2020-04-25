@@ -12,24 +12,11 @@ import (
 	"time"
 )
 
-const (
-	CACHE_TIER_HOBBYIST = 5 * time.Minute
-)
-
 func getEnvWithDefault(key, defaultValue string) string {
 	if value, present := os.LookupEnv(key); present {
 		return value
 	}
 	return defaultValue
-}
-
-func GetCacheTTLByTier(tier string) time.Duration {
-	switch tier {
-	case "Hobbyist":
-		return CACHE_TIER_HOBBYIST
-	default:
-		return CACHE_TIER_HOBBYIST
-	}
 }
 
 func main() {
