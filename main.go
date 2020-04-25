@@ -1,8 +1,8 @@
 package main
 
 import (
-	"awair-exporter/awair"
 	"fmt"
+	"github.com/arcticfoxnv/awair-exporter/awair"
 	"github.com/arcticfoxnv/awair_api"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
