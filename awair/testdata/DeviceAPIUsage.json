@@ -1,0 +1,20 @@
+{
+  "usages": [
+    {
+      "scope": "FIFTEEN_MIN",
+      "usage": 1
+    },
+    {
+      "scope": "FIVE_MIN",
+      "usage": 3
+    },
+    {
+      "scope": "LATEST",
+      "usage": 1
+    },
+    {
+      "scope": "RAW",
+      "usage": 1
+    }
+  ]
+}
