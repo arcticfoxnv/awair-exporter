@@ -1,40 +1,40 @@
 package main
 
 import (
-  "github.com/stretchr/testify/assert"
-  "os"
-  "testing"
+	"github.com/stretchr/testify/assert"
+	"os"
+	"testing"
 )
 
 func TestPreflightCheckOK(t *testing.T) {
-  cfg, _ := loadConfig()
+	cfg, _ := loadConfig()
 
-  assert.Nil(t, preflightCheck(cfg))
+	assert.Nil(t, preflightCheck(cfg))
 }
 
 func TestPrelightCheckErrAccessToken(t *testing.T) {
-  cfg, _ := loadConfig()
-  cfg.Set(CFG_ACCESS_TOKEN, "")
+	cfg, _ := loadConfig()
+	cfg.Set(CFG_ACCESS_TOKEN, "")
 
-  assert.NotNil(t, preflightCheck(cfg))
+	assert.NotNil(t, preflightCheck(cfg))
 }
 
 func TestLoadConfig(t *testing.T) {
-  _, err := loadConfig()
+	_, err := loadConfig()
 
-  assert.Nil(t, err)
+	assert.Nil(t, err)
 }
 
 func TestLoadConfigFile(t *testing.T) {
-  os.Setenv("AWAIR_CONFIG_FILE", "awair.toml")
-  _, err := loadConfig()
+	os.Setenv("AWAIR_CONFIG_FILE", "awair.toml")
+	_, err := loadConfig()
 
-  assert.Nil(t, err)
+	assert.Nil(t, err)
 }
 
 func TestLoadConfigError(t *testing.T) {
-  os.Setenv("AWAIR_CONFIG_FILE", ".does.not.exist.toml")
-  _, err := loadConfig()
+	os.Setenv("AWAIR_CONFIG_FILE", ".does.not.exist.toml")
+	_, err := loadConfig()
 
-  assert.NotNil(t, err)
+	assert.NotNil(t, err)
 }
