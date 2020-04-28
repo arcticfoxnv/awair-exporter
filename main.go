@@ -12,29 +12,21 @@ import (
 	"time"
 )
 
-func getEnvWithDefault(key, defaultValue string) string {
-	if value, present := os.LookupEnv(key); present {
-		return value
-	}
-	return defaultValue
-}
-
 func main() {
 	log.Printf("awair-exporter v%s-%s", Version, Commit)
 	log.Printf("-- awair_api v%s", awair_api.Version)
-	cfgFilename := getEnvWithDefault("AWAIR_CONFIG_FILE", "awair.toml")
-	config, err := LoadConfig(cfgFilename)
+
+	config, err := loadConfig()
 	if err != nil {
 		log.Println("Failed to load config file:", err)
-		config = &Config{}
 	}
-	config.AccessToken = getEnvWithDefault("AWAIR_ACCESS_TOKEN", config.AccessToken)
-	if config.AccessToken == "" {
-		log.Fatalln("Cannot start exporter, access token is missing")
+
+	if err := preflightCheck(config); err != nil {
+		log.Fatalln(err)
 	}
 
 	client := awair.NewClient(
-		config.AccessToken,
+		config.GetString(CFG_ACCESS_TOKEN),
 		0,
 		func(c *awair_api.Client) {
 			c.UserAgent = fmt.Sprintf("awair-exporter/%s (https://github.com/arcticfoxnv/awair-exporter)", Version)
@@ -46,11 +38,9 @@ func main() {
 		log.Fatalln("Failed to retrieve user info:", err)
 	}
 
-	tierName := userInfo.Tier
+	config.SetDefault(CFG_TIER_NAME, userInfo.Tier)
+	tierName := config.GetString(CFG_TIER_NAME)
 	log.Println("API tier level:", tierName)
-	if config.Tier != "" {
-		tierName = config.Tier
-	}
 
 	cacheTTL := GetCacheTTLByTier(tierName)
 	log.Printf("Setting cache key ttl to %d seconds\n", cacheTTL/time.Second)

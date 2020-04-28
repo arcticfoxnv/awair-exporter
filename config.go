@@ -1,19 +1,46 @@
 package main
 
 import (
-	"github.com/BurntSushi/toml"
+	"errors"
+	"github.com/spf13/viper"
+	"os"
 )
 
-type Config struct {
-	AccessToken string `toml:"access_token"`
-	Tier        string
-}
+const (
+	CFG_ACCESS_TOKEN = "access_token"
+	CFG_TIER_NAME = "tier_name"
+)
 
-func LoadConfig(filename string) (*Config, error) {
-	config := &Config{}
-	if _, err := toml.DecodeFile(filename, config); err != nil {
-		return nil, err
+func loadConfig() (*viper.Viper, error) {
+	v := viper.GetViper()
+
+	// Configure viper
+	v.SetConfigName("awair")
+	v.SetConfigType("toml")
+	v.AddConfigPath("/etc")
+	v.AddConfigPath(".")
+	v.SetEnvPrefix("awair")
+	v.AutomaticEnv()
+
+	if path, present := os.LookupEnv("AWAIR_CONFIG_FILE"); present {
+		v.SetConfigFile(path)
 	}
 
-	return config, nil
+	// Configure defaults
+
+
+	// Read config
+	if err := v.ReadInConfig(); err != nil {
+		return v, err
+	}
+
+	return v, nil
+}
+
+func preflightCheck(v *viper.Viper) error {
+	if v.GetString(CFG_ACCESS_TOKEN) == "" {
+		return errors.New("Cannot start exporter, access token is missing")
+	}
+
+	return nil
 }
