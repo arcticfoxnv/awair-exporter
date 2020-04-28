@@ -45,7 +45,7 @@ func main() {
 
 	e := NewExporter(client)
 	s := &http.Server{
-		Addr: fmt.Sprintf(":%d", config.GetInt(CFG_LISTEN_PORT)),
+		Addr:    fmt.Sprintf(":%d", config.GetInt(CFG_LISTEN_PORT)),
 		Handler: e,
 	}
 
