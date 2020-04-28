@@ -9,6 +9,7 @@ import (
 const (
 	CFG_ACCESS_TOKEN = "access_token"
 	CFG_TIER_NAME = "tier_name"
+	CFG_LISTEN_PORT = "listen_port"
 )
 
 func loadConfig() (*viper.Viper, error) {
@@ -27,6 +28,7 @@ func loadConfig() (*viper.Viper, error) {
 	}
 
 	// Configure defaults
+	v.SetDefault(CFG_LISTEN_PORT, 8080)
 
 
 	// Read config

@@ -1,6 +1,6 @@
 package main
 
 const (
-	Version = "0.2.6"
+	Version = "0.2.7"
 	Commit  = "HEAD"
 )
