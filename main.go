@@ -44,7 +44,10 @@ func main() {
 	client.SetCacheTTL(cacheTTL)
 
 	e := NewExporter(client)
-	s := &http.Server{Addr: ":8080", Handler: e}
+	s := &http.Server{
+		Addr: fmt.Sprintf(":%d", config.GetInt(CFG_LISTEN_PORT)),
+		Handler: e,
+	}
 
 	log.Println("Starting HTTP listener on", s.Addr)
 	s.ListenAndServe()
