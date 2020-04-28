@@ -4,11 +4,8 @@ import (
 	"fmt"
 	"github.com/arcticfoxnv/awair-exporter/awair"
 	"github.com/arcticfoxnv/awair_api"
-	"github.com/prometheus/client_golang/prometheus"
-	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"log"
 	"net/http"
-	"os"
 	"time"
 )
 
@@ -46,14 +43,8 @@ func main() {
 	log.Printf("Setting cache key ttl to %d seconds\n", cacheTTL/time.Second)
 	client.SetCacheTTL(cacheTTL)
 
-	registry := prometheus.NewRegistry()
-	registry.MustRegister(NewAwairCollector(client))
-
-	e := NewExporterHTTP(client)
-	m := http.NewServeMux()
-	m.Handle("/metrics", promhttp.HandlerFor(registry, promhttp.HandlerOpts{}))
-	m.HandleFunc("/meta/usage", e.serveUsage)
-	s := &http.Server{Addr: ":8080", Handler: m}
+	e := NewExporter(client)
+	s := &http.Server{Addr: ":8080", Handler: e}
 
 	log.Println("Starting HTTP listener on", s.Addr)
 	s.ListenAndServe()
